@@ -11,7 +11,9 @@ BOARD_AVB_ENABLE := true
 ENABLE_VIRTUAL_AB := true
 
 # Enable virtual A/B compression
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/compression.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := gz
 
 # Default A/B configuration
 ENABLE_AB ?= true
@@ -32,6 +34,8 @@ PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 # Set GRF/Vendor freeze properties
 BOARD_SHIPPING_API_LEVEL := 30
 BOARD_API_LEVEL := 33
+
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 # For QSSI builds, we should skip building the system image. Instead we build the
 # "non-system" images (that we support).
@@ -93,8 +97,8 @@ POSTINSTALL_PATH_vendor=bin/checkpoint_gc \
 FILESYSTEM_TYPE_vendor=ext4 \
 POSTINSTALL_OPTIONAL_vendor=true
 # Userdata checkpoint end
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/default/fstab_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.default
-PRODUCT_COPY_FILES += $(LOCAL_PATH)/emmc/fstab_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.emmc
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/default/fstab_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.default
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/emmc/fstab_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.emmc
 else
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/default/fstab_non_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.default
 PRODUCT_COPY_FILES += $(LOCAL_PATH)/emmc/fstab_non_AB_dynamic_partition.qti:$(TARGET_COPY_OUT_RAMDISK)/first_stage_ramdisk/fstab.emmc
@@ -388,6 +392,8 @@ PRODUCT_BOOT_JARS += telephony-ext
 PRODUCT_PACKAGES += telephony-ext
 
 PRODUCT_BOOT_JARS += tcmiface
+
+PRODUCT_PROPERTY_OVERRIDES += persist.sys.fuse.passthrough.enable=true
 
 # Vendor property to enable advanced network scanning
 PRODUCT_PROPERTY_OVERRIDES += \
