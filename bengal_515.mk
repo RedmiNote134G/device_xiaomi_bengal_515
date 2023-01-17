@@ -32,7 +32,7 @@ SHIPPING_API_LEVEL := 33
 PRODUCT_SHIPPING_API_LEVEL := $(SHIPPING_API_LEVEL)
 
 # Set GRF/Vendor freeze properties
-BOARD_SHIPPING_API_LEVEL := 30
+BOARD_SHIPPING_API_LEVEL := 33
 BOARD_API_LEVEL := 33
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
@@ -239,7 +239,7 @@ TARGET_USES_QMAA_OVERRIDE_PERF := true
 TARGET_USES_QMAA_OVERRIDE_SENSORS := true
 TARGET_USES_QMAA_OVERRIDE_SYNX := false
 TARGET_USES_QMAA_OVERRIDE_SECUREMSM_TESTS := false
-TARGET_USES_QMAA_OVERRIDE_SOTER := false
+TARGET_USES_QMAA_OVERRIDE_SOTER := true
 TARGET_USES_QMAA_OVERRIDE_REMOTE_EFS := false
 TARGET_USES_QMAA_OVERRIDE_TFTP := false
 TARGET_USES_QMAA_OVERRIDE_EID := false
@@ -408,7 +408,8 @@ ro.crypto.volume.filenames_mode = "aes-256-cts" \
 ro.crypto.allow_encrypt_override = true
 
 PRODUCT_PACKAGES += init.qti.dcvs.sh
-
+PRODUCT_PACKAGES += android.hardware.sensors@2.1-service.multihal
+PRODUCT_PACKAGES += android.hardware.sensors@2.1-service-multihal.rc
 # Enable legacy QSEECom
 TARGET_ENABLE_QSEECOM := true
 
