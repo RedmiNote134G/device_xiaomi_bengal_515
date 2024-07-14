@@ -434,6 +434,11 @@ BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
 FEATURE_SLIM_AP := false
 FEATURE_GPS_LOC_QSH := false
 
+ifeq ($(TARGET_HAS_QTI_OPTIMIZATIONS), true)
+PRODUCT_COPY_FILES += \
+    device/qcom/bengal_515/data/etc/handheld_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/handheld_core_hardware.xml
+endif
+
 ###################################################################################
 # This is the End of target.mk file.
 # Now, Pickup other split product.mk files:
